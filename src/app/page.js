@@ -8,6 +8,8 @@ export default function Home() {
 
   // Create a debounced version of addClick
   const debouncedAddClick = debounce(addClick, 1000);
+  console.log("Clicks:", clicks);
+  console.log("Scoreboard:", scoreboard);
 
   return (
     <div style={{ textAlign: "center" }}>
