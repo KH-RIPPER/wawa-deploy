@@ -26,7 +26,8 @@ const clickService = {
 
   // Function to set up Socket.IO connection
   setupSocketIO: (onUpdate) => {
-    const socket = io(`${process.env.NEXT_PUBLIC_API_URL,}`, { transports: ["websocket"] }); // Replace with your server URL
+    // Use the module-level socket variable
+    socket = io(process.env.NEXT_PUBLIC_API_URL, { transports: ["websocket"] }); // Replace with your server URL
 
     socket.on("connect", () => {
       console.log("Socket.IO connection established");
@@ -45,6 +46,7 @@ const clickService = {
   cleanupSocketIO: () => {
     if (socket) {
       socket.disconnect();
+      socket = null; // Clear the socket variable to prevent reuse
     }
   },
 };
