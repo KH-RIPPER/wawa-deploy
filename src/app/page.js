@@ -7,7 +7,7 @@ export default function Home() {
   const { clicks, scoreboard, addClick } = useClick();
 
   // Create a debounced version of addClick
-  const debouncedAddClick = debounce(addClick, 300);
+  const debouncedAddClick = debounce(addClick, 1000);
 
   return (
     <div style={{ textAlign: "center" }}>
