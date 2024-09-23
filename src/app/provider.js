@@ -1,5 +1,3 @@
-"use client";
-
 import { ClickProvider } from "@/contexts/click";
 
 export default function Providers({ children }) {
