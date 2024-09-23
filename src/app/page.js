@@ -1,13 +1,14 @@
+"use client";
 import ClickButton from "./components/ClickButton";
 import Leaderboard from "./components/Leaderboard";
-import { useClick } from "../contexts/click";
+import { useClick } from "@/contexts/click";
 import debounce from "lodash.debounce";
 
 export default function Home() {
   const { clicks, scoreboard, addClick } = useClick();
 
   // Create a debounced version of addClick
-  const debouncedAddClick = debounce(addClick, 1000);
+  const debouncedAddClick = debounce(addClick, 200);
   console.log("Clicks:", clicks);
   console.log("Scoreboard:", scoreboard);
 

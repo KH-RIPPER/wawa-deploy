@@ -1,4 +1,4 @@
-import { useClickContext } from "../contexts/click";
+import { useClickContext } from "@/contexts/click";
 
 export const useClick = () => {
   const context = useClickContext();

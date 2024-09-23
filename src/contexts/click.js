@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useState, useEffect, useContext } from "react";
-import clickService from "../services/click";
+import clickService from "@/services/click";
 
 const ClickContext = createContext();
 
