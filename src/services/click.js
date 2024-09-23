@@ -26,7 +26,7 @@ const clickService = {
 
   // Function to set up Socket.IO connection
   setupSocketIO: (onUpdate) => {
-    const socket = io("http://localhost:3001", { transports: ["websocket"] }); // Replace with your server URL
+    const socket = io(`${process.env.NEXT_PUBLIC_API_URL,}`, { transports: ["websocket"] }); // Replace with your server URL
 
     socket.on("connect", () => {
       console.log("Socket.IO connection established");
