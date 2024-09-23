@@ -8,7 +8,7 @@ export default function Home() {
   const { clicks, scoreboard, addClick } = useClick();
 
   // Create a debounced version of addClick
-  const debouncedAddClick = debounce(addClick, 200);
+  const debouncedAddClick = debounce(addClick, 100);
   console.log("Clicks:", clicks);
   console.log("Scoreboard:", scoreboard);
 
