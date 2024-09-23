@@ -2,7 +2,7 @@
 import React from "react";
 import ClickButton from "./components/ClickButton";
 import Leaderboard from "./components/Leaderboard";
-import { useClick } from "../hooks/click";
+import { useClick } from "../contexts/click";
 
 const Home = () => {
   const { clicks, scoreboard, addClick } = useClick();

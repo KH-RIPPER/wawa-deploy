@@ -1,8 +1,9 @@
 import API from "@/utils/api";
+import { io } from "socket.io-client";
 
 let socket;
 
-export const clickService = {
+const clickService = {
   addClick: async (country) => {
     try {
       const response = await API.post("/click/add", { country });
@@ -23,28 +24,29 @@ export const clickService = {
     }
   },
 
-  // Function to set up WebSocket connection
-  setupWebSocket: (onUpdate) => {
-    socket = new WebSocket("ws://localhost:8080");
+  // Function to set up Socket.IO connection
+  setupSocketIO: (onUpdate) => {
+    const socket = io("http://localhost:3001", { transports: ["websocket"] }); // Replace with your server URL
 
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      onUpdate(data.leaderboard); // Call the provided function with the updated leaderboard
-    };
+    socket.on("connect", () => {
+      console.log("Socket.IO connection established");
+    });
 
-    socket.onopen = () => {
-      console.log("WebSocket connection established");
-    };
+    socket.on("leaderboardUpdate", (data) => {
+      onUpdate(data.leaderboard);
+    });
 
-    socket.onclose = () => {
-      console.log("WebSocket connection closed");
-    };
+    socket.on("disconnect", () => {
+      console.log("Socket.IO connection closed");
+    });
   },
 
-  // Function to clean up WebSocket connection
-  cleanupWebSocket: () => {
+  // Function to clean up Socket.IO connection
+  cleanupSocketIO: () => {
     if (socket) {
-      socket.close();
+      socket.disconnect();
     }
   },
 };
+
+export default clickService;

@@ -1,23 +1,20 @@
-"use client";
-import React, { createContext, useState, useContext, useEffect } from "react";
-import { clickService } from "../services/click";
+import React, { createContext, useState, useEffect, useContext } from "react";
+import clickService from "../services/click";
 
 const ClickContext = createContext();
-
-export const useClickContext = () => useContext(ClickContext);
 
 export const ClickProvider = ({ children }) => {
   const [clicks, setClicks] = useState(0);
   const [scoreboard, setScoreboard] = useState([]);
 
   const addClick = async () => {
-    setClicks(clicks + 1);
-    await clickService.addClick("YourCountry"); // Replace "YourCountry" with the actual country logic
-  };
-
-  const fetchLeaderboard = async () => {
-    const data = await clickService.getLeaderboard();
-    setScoreboard(data);
+    try {
+      const result = await clickService.addClick();
+      setClicks((prevClicks) => prevClicks + 1);
+      setScoreboard(result.leaderboard);
+    } catch (error) {
+      console.error("Error adding click:", error);
+    }
   };
 
   const handleUpdate = (updatedLeaderboard) => {
@@ -25,15 +22,23 @@ export const ClickProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchLeaderboard();
-    const interval = setInterval(fetchLeaderboard, 5000);
+    const fetchInitialData = async () => {
+      try {
+        const initialLeaderboard = await clickService.getLeaderboard();
+        setScoreboard(initialLeaderboard);
+      } catch (error) {
+        console.error("Error fetching initial leaderboard:", error);
+      }
+    };
 
-    // Set up WebSocket connection
-    clickService.setupWebSocket(handleUpdate);
+    fetchInitialData();
+
+    // Set up Socket.IO connection
+    clickService.setupSocketIO(handleUpdate);
 
     return () => {
-      clearInterval(interval);
-      clickService.cleanupWebSocket();
+      // Clean up Socket.IO connection
+      clickService.cleanupSocketIO();
     };
   }, []);
 
@@ -42,4 +47,12 @@ export const ClickProvider = ({ children }) => {
       {children}
     </ClickContext.Provider>
   );
+};
+
+export const useClick = () => {
+  const context = useContext(ClickContext);
+  if (!context) {
+    throw new Error("useClick must be used within a ClickProvider");
+  }
+  return context;
 };
