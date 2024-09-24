@@ -101,10 +101,12 @@ export default function Home() {
                   #1 {topCountryName} {topCountryClicks}
                 </span>
               </div>
-              <div className="flex items-center">
-                <span className="mr-2">{userClicks} clicks</span>
-                {/* Display user's country flag */}
-                {userCountry && <Flag code={userCountry} className="w-6 h-6" />}
+              <div
+                className={`transform transition-transform duration-300 ${
+                  isLeaderboardOpen ? "rotate-180" : ""
+                }`}
+              >
+                ▲
               </div>
             </>
           )}
