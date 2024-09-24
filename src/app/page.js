@@ -12,10 +12,14 @@ export default function Home() {
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const [localClicks, setLocalClicks] = useState(0);
 
-  const debouncedAddClick = debounce(() => {
-    addClick();
-    setLocalClicks((prev) => prev + 1);
-  }, 100);
+  const debouncedAddClick = useMemo(
+    () =>
+      debounce(() => {
+        addClick();
+        setLocalClicks((prev) => prev + 1);
+      }, 100),
+    [addClick]
+  );
 
   useEffect(() => {
     setLocalClicks(clicks);
@@ -25,10 +29,11 @@ export default function Home() {
     userRank,
     topCountry,
     topCountryClicks,
-    userClicks,
+    userCountryClicks,
     sortedScores,
     totalWorldwideClicks,
     topCountryName,
+    userCountryName,
   } = useMemo(() => {
     const scoresMap = new Map(
       scoreboard.map(({ country, clicks, countryCode }) => [
@@ -51,9 +56,11 @@ export default function Home() {
     const topCountry = sortedScores[0]?.countryCode || "";
     const topCountryName = sortedScores[0]?.country || "";
     const topCountryClicks = sortedScores[0]?.clicks || 0;
-    const userClicks =
-      sortedScores.find((score) => score.countryCode === userCountry)?.clicks ||
-      0;
+    const userCountryScore = sortedScores.find(
+      (score) => score.countryCode === userCountry
+    );
+    const userCountryClicks = userCountryScore?.clicks || 0;
+    const userCountryName = userCountryScore?.country || "Unknown";
     const totalWorldwideClicks = sortedScores.reduce(
       (total, score) => total + score.clicks,
       0
@@ -63,10 +70,11 @@ export default function Home() {
       userRank,
       topCountry,
       topCountryClicks,
-      userClicks,
+      userCountryClicks,
       sortedScores,
       totalWorldwideClicks,
       topCountryName,
+      userCountryName,
     };
   }, [scoreboard, userCountry]);
 
@@ -99,6 +107,12 @@ export default function Home() {
                 <Flag code={topCountry} className="w-6 h-6 mr-2" />
                 <span className="mr-2 font-normal">
                   #1 {topCountryName} {topCountryClicks}
+                </span>
+              </div>
+              <div className="flex items-center">
+                <Flag code={userCountry} className="w-6 h-6 mr-2" />
+                <span className="mr-2 font-normal">
+                  {userCountryName} {userCountryClicks}
                 </span>
               </div>
               <div
