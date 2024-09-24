@@ -12,7 +12,6 @@ export default function Home() {
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const [localClicks, setLocalClicks] = useState(0);
 
-<<<<<<< HEAD
   const debouncedAddClick = debounce(() => {
     addClick();
     setLocalClicks((prev) => prev + 1);
@@ -74,12 +73,6 @@ export default function Home() {
   const toggleLeaderboard = () => {
     setIsLeaderboardOpen(!isLeaderboardOpen);
   };
-=======
-  // Create a debounced version of addClick
-  const debouncedAddClick = debounce(addClick, 100);
-  console.log("Clicks:", clicks);
-  console.log("Scoreboard:", scoreboard);
->>>>>>> f06ef96378d95f0d5e264f00a0fc035784e72409
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen relative">
@@ -109,6 +102,7 @@ export default function Home() {
                 </span>
               </div>
               <div className="flex items-center">
+                <span className="mr-2">{userClicks} clicks</span>
                 {/* Display user's country flag */}
                 {userCountry && <Flag code={userCountry} className="w-6 h-6" />}
               </div>
