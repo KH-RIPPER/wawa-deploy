@@ -17,6 +17,8 @@ const clickService = {
   getLeaderboard: async () => {
     try {
       const response = await API.get("/click/all");
+
+      window.localStorage.setItem("ip", response.data.ip);
       return response.data.result; // Assuming backend response contains `result`
     } catch (error) {
       console.error("Error fetching leaderboard:", error);
@@ -32,7 +34,9 @@ const clickService = {
     });
 
     socket.on("leaderboardUpdate", (data) => {
-      onUpdate(data.leaderboard);
+      if (data.ip === window.localStorage.getItem("ip")) {
+        onUpdate(data.leaderboard);
+      }
     });
 
     socket.on("disconnect", () => {
