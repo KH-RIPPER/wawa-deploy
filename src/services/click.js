@@ -17,17 +17,15 @@ const clickService = {
   getLeaderboard: async () => {
     try {
       const response = await API.get("/click/all");
-      return response.data.result;
+      return response.data.result; // Assuming backend response contains `result`
     } catch (error) {
       console.error("Error fetching leaderboard:", error);
       throw error;
     }
   },
 
-  // Function to set up Socket.IO connection
   setupSocketIO: (onUpdate) => {
-    // Use the module-level socket variable
-    socket = io(process.env.NEXT_PUBLIC_API_URL, { transports: ["websocket"] }); // Replace with your server URL
+    socket = io(process.env.NEXT_PUBLIC_API_URL, { transports: ["websocket"] });
 
     socket.on("connect", () => {
       console.log("Socket.IO connection established");
@@ -42,11 +40,10 @@ const clickService = {
     });
   },
 
-  // Function to clean up Socket.IO connection
   cleanupSocketIO: () => {
     if (socket) {
       socket.disconnect();
-      socket = null; // Clear the socket variable to prevent reuse
+      socket = null;
     }
   },
 };
