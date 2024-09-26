@@ -5,6 +5,7 @@ import { useState, useMemo, useEffect } from "react";
 import { useClick } from "@/contexts/click";
 import debounce from "lodash.debounce";
 import Flag from "react-world-flags";
+import Navbar from "./components/Navbar";
 
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -76,16 +77,20 @@ export default function Home() {
   const toggleLeaderboard = () => setIsLeaderboardOpen((prev) => !prev);
 
   return (
-    <div className="flex flex-col items-center justify-between min-h-screen w-full">
-      <div className="w-full h-[100vh] bg-[url('../assets/background.png')] relative z-0">
-        <div className="flex-grow flex flex-col items-center justify-center relative z-50">
+    <div className="flex flex-col items-center justify-between min-h-screen w-full relative">
+      <div className="w-full h-[100vh] bg-[url('../assets/background.png')] relative z-0 ">
+        <div className="absolute top-2 left-[37.5%] z-50 w-fit p-4">
+          <Navbar />
+        </div>
+
+        <div className="flex-grow flex flex-col items-center justify-center relative z-40">
           <button
             onClick={debouncedAddClick}
-            className="absolute inset-0 opacity-0 z-40 cursor-pointer w-full h-[100vh]"
+            className="absolute inset-0 opacity-0 z-30 cursor-pointer w-full h-[100vh]"
             aria-label="Click Button"
           ></button>
 
-          <h2 className="text-xl font-bold mt-4 z-50 bg-[rgba(0,0,0,0.1)] backdrop-blur-lg px-4 py-2 rounded-full">
+          <h2 className="text-xl font-bold mt-24 z-40 bg-[rgba(0,0,0,0.1)] backdrop-blur-lg px-4 py-2 rounded-full">
             Total Clicks: {localClicks}
           </h2>
         </div>
@@ -143,7 +148,7 @@ export default function Home() {
               <span>({stats?.topCountryClicks})</span>
             </div>
             <div className="flex items-center space-x-2">
-              <Flag code={userCountry} className="w-6 h-6" />
+              <Flag code={stats?.userCountryName} className="w-6 h-6" />
               <span>{stats?.userCountryName}</span>
               <span>({stats?.userCountryClicks})</span>
             </div>
