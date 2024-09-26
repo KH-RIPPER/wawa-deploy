@@ -1,5 +1,4 @@
 "use client";
-import ClickButton from "./components/ClickButton";
 import Leaderboard from "./components/Leaderboard";
 import { useState, useMemo, useEffect } from "react";
 import { useClick } from "@/contexts/click";
@@ -78,8 +77,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen w-full relative">
-      <div className="w-full h-[100vh] bg-[url('../assets/background.png')] relative z-0 ">
-        <div className="absolute top-2 left-[37.5%] z-50 w-fit p-4">
+      <div className="w-full h-screen bg-[url('../assets/background.png')] bg-cover bg-center relative z-0">
+        <div className="absolute scale-[0.7] md:scale-[1] top-2 left-1/2 transform -translate-x-1/2 z-50 w-[550px] p-4">
           <Navbar />
         </div>
 
@@ -90,50 +89,56 @@ export default function Home() {
             aria-label="Click Button"
           ></button>
 
-          <h2 className="text-xl font-bold mt-24 z-40 bg-[rgba(0,0,0,0.1)] backdrop-blur-lg px-4 py-2 rounded-full">
+          <h2 className="text-lg sm:text-xl font-bold mt-24 z-40 bg-[rgba(0,0,0,0.1)] backdrop-blur-lg px-4 py-2 rounded-full">
             Total Clicks: {localClicks}
           </h2>
         </div>
 
-        <Image src={WawaCat} className="absolute bottom-0 z-10" />
+        <Image
+          src={WawaCat}
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10 w-[400px]  md:w-[800px] lg:w-[1000px] xl:w-[1100px]"
+        />
 
         {showWawaCry && (
-          <Image src={WawaCry} className="absolute bottom-0 z-20" />
+          <Image
+            src={WawaCry}
+            className="absolute left-1/2 transform -translate-x-1/2 bottom-0 z-20 w-[400px]  md:w-[800px] lg:w-[1000px] xl:w-[1100px]"
+          />
         )}
-        {/* Floating ghosts */}
+
         <motion.div
-          className="absolute bottom-10 left-20 z-0"
+          className="absolute bottom-10 left-5 z-0 w-16 sm:w-20 md:w-24 lg:w-28"
           animate={floatAnimation}
         >
           <Image src={GhostBl} alt="Ghost Bottom Left" />
         </motion.div>
         <motion.div
-          className="absolute bottom-10 right-52 z-0"
+          className="absolute bottom-10 right-16 z-0 w-16 sm:w-20 md:w-24 lg:w-28"
           animate={floatAnimation}
         >
           <Image src={GhostBr} alt="Ghost Bottom Right" />
         </motion.div>
         <motion.div
-          className="absolute top-10 left-5 z-0"
+          className="absolute top-10 left-5 z-0 w-16 sm:w-20 md:w-24 lg:w-28"
           animate={floatAnimation}
         >
           <Image src={GhostTl} alt="Ghost Top Left" />
         </motion.div>
         <motion.div
-          className="absolute top-10 right-72 z-0"
+          className="absolute top-10 right-16 z-0 w-16 sm:w-20 md:w-24 lg:w-28"
           animate={floatAnimation}
         >
           <Image src={GhostTr} alt="Ghost Top Right" />
         </motion.div>
         <motion.div
-          className="absolute top-10 left-1/2 transform -translate-x-1/2 z-0"
+          className="absolute top-10 left-1/2 transform -translate-x-1/2 z-0 w-16 sm:w-20 md:w-24 lg:w-28"
           animate={floatAnimation}
         >
           <Image src={GhostTc} alt="Ghost Top Center" />
         </motion.div>
 
         <div
-          className={`fixed w-full max-w-[500px] bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-200 shadow-xl rounded-t-lg transition-all duration-300 ease-in-out ${
+          className={`fixed w-full max-w-[90%] sm:max-w-[500px] bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-200 shadow-xl rounded-t-lg transition-all duration-300 ease-in-out ${
             isLeaderboardOpen ? "h-1/2" : "h-16"
           } flex flex-col items-center overflow-hidden z-50`}
         >

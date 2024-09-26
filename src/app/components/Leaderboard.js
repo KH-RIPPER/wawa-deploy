@@ -2,30 +2,31 @@
 
 import React, { useEffect, useState } from "react";
 import Flag from "react-world-flags";
-import clickService from "@/services/click"; // Ensure the path is correct
+import clickService from "@/services/click";
+import { FaSpinner } from "react-icons/fa";
 
 const MedalIcon = ({ rank }) => {
   switch (rank) {
     case 1:
       return (
-        <span role="img" aria-label="Gold Medal">
+        <span role="img" aria-label="Gold Medal" className="text-yellow-500">
           🥇
         </span>
       );
     case 2:
       return (
-        <span role="img" aria-label="Silver Medal">
+        <span role="img" aria-label="Silver Medal" className="text-gray-400">
           🥈
         </span>
       );
     case 3:
       return (
-        <span role="img" aria-label="Bronze Medal">
+        <span role="img" aria-label="Bronze Medal" className="text-orange-500">
           🥉
         </span>
       );
     default:
-      return null;
+      return <span className="text-gray-600">{rank}</span>;
   }
 };
 
@@ -75,48 +76,62 @@ export default function Leaderboard() {
   }, [clickService]);
 
   return (
-    <div>
-      <h1>Leaderboard</h1>
+    <div className="w-full max-w-4xl mx-auto my-8 p-4 rounded-lg">
+      <h1 className="text-3xl font-bold text-center mb-6 text-indigo-600">
+        🌍 Global Click Leaderboard
+      </h1>
+
       {loading ? (
-        <p>Loading scores...</p>
+        <div className="flex justify-center items-center">
+          <FaSpinner className="animate-spin h-8 w-8 text-indigo-600" />
+          <p className="ml-2 text-lg font-medium">Loading scores...</p>
+        </div>
       ) : (
         <>
-          <div className="worldwide-total">
+          <div className="worldwide-total text-center mb-6 text-lg font-semibold">
             <span role="img" aria-label="Worldwide">
               🌍
             </span>{" "}
-            Worldwide Clicks: {totalWorldwideClicks}
+            Worldwide Clicks:{" "}
+            <span className="text-indigo-600">{totalWorldwideClicks}</span>
           </div>
 
-          <table>
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Country</th>
-                <th>Clicks</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leaderboard.map(
-                ({ _id: countryCode, country, totalClicks }, index) => (
-                  <tr key={countryCode}>
-                    <td>
-                      {index < 3 ? <MedalIcon rank={index + 1} /> : index + 1}
-                    </td>
-                    <td>
-                      <Flag
-                        code={countryCode}
-                        style={{ width: "24px", marginRight: "8px" }}
-                      />
-                      {country}
-                    </td>
-
-                    <td>{totalClicks} </td>
-                  </tr>
-                )
-              )}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto">
+            <table className="min-w-full table-auto border-collapse">
+              <thead>
+                <tr className="bg-indigo-400 text-white">
+                  <th className="py-3 px-4 text-left">Rank</th>
+                  <th className="py-3 px-4 text-left">Country</th>
+                  <th className="py-3 px-4 text-left">Clicks</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leaderboard.map(
+                  ({ _id: countryCode, country, totalClicks }, index) => (
+                    <tr
+                      key={countryCode}
+                      className={`${
+                        index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                      } hover:bg-indigo-100 transition-all`}
+                    >
+                      <td className="py-3 px-4">
+                        <MedalIcon rank={index + 1} />
+                      </td>
+                      <td className="py-3 px-4 flex items-center">
+                        <Flag
+                          code={countryCode}
+                          className="w-6 h-4 mr-2"
+                          alt={`${country} Flag`}
+                        />
+                        {country}
+                      </td>
+                      <td className="py-3 px-4">{totalClicks}</td>
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
     </div>
