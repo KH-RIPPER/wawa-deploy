@@ -16,6 +16,8 @@ import GhostTr from "@/assets/ghosttr.png";
 import GhostTc from "@/assets/ghosttc.png";
 import GhostTl from "@/assets/ghosttl.png";
 
+import useSound from "use-sound";
+
 const floatAnimation = {
   y: [0, -30, 30, 0],
   x: [0, 20, -20, 0],
@@ -33,6 +35,9 @@ export default function Home() {
   const [localClicks, setLocalClicks] = useState(clicks);
   const [stats, setStats] = useState({});
   const [showWawaCry, setShowWawaCry] = useState(false);
+
+  // Load the sound file using the useSound hook
+  const [play] = useSound("/SoundEffect.mp3");
 
   useEffect(() => {
     if (scoreboard.length > 0) {
@@ -61,12 +66,12 @@ export default function Home() {
         setLocalClicks((prev) => prev + 1);
 
         setShowWawaCry(true);
-
+        play();
         setTimeout(() => {
           setShowWawaCry(false);
         }, 300);
       }, 100),
-    [addClick]
+    [addClick, play]
   );
 
   useEffect(() => {
