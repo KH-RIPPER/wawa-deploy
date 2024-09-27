@@ -5,7 +5,7 @@ import { useClick } from "@/contexts/click";
 import debounce from "lodash.debounce";
 import Flag from "react-world-flags";
 
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import Image from "next/image";
 import WawaCat from "@/assets/wawa-cat.png";
 import WawaCry from "@/assets/wawa-cry.png";
@@ -17,15 +17,27 @@ import GhostTl from "@/assets/ghosttl.png";
 
 import useSound from "use-sound";
 
-const floatAnimation = {
-  y: [0, -30, 30, 0],
-  x: [0, 20, -20, 0],
-  transition: {
-    duration: 5,
-    repeat: Infinity,
-    repeatType: "mirror",
-    ease: "easeInOut",
-  },
+const FloatingGhost = ({ src, alt, className }) => {
+  const controls = useAnimation();
+
+  useEffect(() => {
+    controls.start({
+      y: [0, -30, 30, 0],
+      x: [0, 20, -20, 0],
+      transition: {
+        duration: 5,
+        repeat: Infinity,
+        repeatType: "mirror",
+        ease: "easeInOut",
+      },
+    });
+  }, [controls]);
+
+  return (
+    <motion.div className={className} animate={controls}>
+      <Image src={src} alt={alt} />
+    </motion.div>
+  );
 };
 
 export default function Clicker() {
@@ -95,46 +107,43 @@ export default function Clicker() {
 
         <Image
           src={WawaCat}
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10 w-[400px]  md:w-[800px] lg:w-[1000px] xl:w-[1100px]"
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10 w-[400px] md:w-[800px] lg:w-[1000px] xl:w-[1100px]"
+          alt="Wawa Cat"
         />
 
         {showWawaCry && (
           <Image
             src={WawaCry}
-            className="absolute left-1/2 transform -translate-x-1/2 bottom-0 z-20 w-[400px]  md:w-[800px] lg:w-[1000px] xl:w-[1100px]"
+            className="absolute left-1/2 transform -translate-x-1/2 bottom-0 z-20 w-[400px] md:w-[800px] lg:w-[1000px] xl:w-[1100px]"
+            alt="Wawa Cry"
           />
         )}
 
-        <motion.div
+        <FloatingGhost
+          src={GhostBl}
+          alt="Ghost Bottom Left"
           className="absolute bottom-10 left-5 z-0 w-16 sm:w-20 md:w-24 lg:w-28"
-          animate={floatAnimation}
-        >
-          <Image src={GhostBl} alt="Ghost Bottom Left" />
-        </motion.div>
-        <motion.div
+        />
+        <FloatingGhost
+          src={GhostBr}
+          alt="Ghost Bottom Right"
           className="absolute bottom-10 right-16 z-0 w-16 sm:w-20 md:w-24 lg:w-28"
-          animate={floatAnimation}
-        >
-          <Image src={GhostBr} alt="Ghost Bottom Right" />
-        </motion.div>
-        <motion.div
+        />
+        <FloatingGhost
+          src={GhostTl}
+          alt="Ghost Top Left"
           className="absolute top-10 left-5 z-0 w-16 sm:w-20 md:w-24 lg:w-28"
-          animate={floatAnimation}
-        >
-          <Image src={GhostTl} alt="Ghost Top Left" />
-        </motion.div>
-        <motion.div
+        />
+        <FloatingGhost
+          src={GhostTr}
+          alt="Ghost Top Right"
           className="absolute top-10 right-16 z-0 w-16 sm:w-20 md:w-24 lg:w-28"
-          animate={floatAnimation}
-        >
-          <Image src={GhostTr} alt="Ghost Top Right" />
-        </motion.div>
-        <motion.div
+        />
+        <FloatingGhost
+          src={GhostTc}
+          alt="Ghost Top Center"
           className="absolute top-10 left-1/2 transform -translate-x-1/2 z-0 w-16 sm:w-20 md:w-24 lg:w-28"
-          animate={floatAnimation}
-        >
-          <Image src={GhostTc} alt="Ghost Top Center" />
-        </motion.div>
+        />
 
         <div
           className={`fixed w-full max-w-[90%] sm:max-w-[500px] bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-200 shadow-xl rounded-t-lg transition-all duration-300 ease-in-out ${
