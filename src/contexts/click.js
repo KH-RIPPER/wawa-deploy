@@ -13,9 +13,7 @@ export const ClickProvider = ({ children }) => {
       const result = await clickService.addClick();
       setClicks((prevClicks) => prevClicks + 1);
       setScoreboard(result.leaderboard);
-    } catch (error) {
-      console.error("Error adding click:", error);
-    }
+    } catch (error) {}
   };
 
   const handleUpdate = (updatedLeaderboard) => {
@@ -27,9 +25,7 @@ export const ClickProvider = ({ children }) => {
       try {
         const initialLeaderboard = await clickService.getLeaderboard();
         setScoreboard(initialLeaderboard);
-      } catch (error) {
-        console.error("Error fetching initial leaderboard:", error);
-      }
+      } catch (error) {}
     };
 
     fetchInitialData();

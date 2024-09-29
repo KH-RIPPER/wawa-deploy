@@ -3,7 +3,6 @@ import Leaderboard from "./Leaderboard";
 import { useState, useMemo, useEffect } from "react";
 import { useClick } from "@/contexts/click";
 import debounce from "lodash.debounce";
-import Flag from "react-world-flags";
 
 import { motion, useAnimation } from "framer-motion";
 import Image from "next/image";
@@ -41,33 +40,11 @@ const FloatingGhost = ({ src, alt, className }) => {
 };
 
 export default function Clicker() {
-  const { clicks, scoreboard, addClick, userCountry } = useClick();
-  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
+  const { clicks, addClick } = useClick();
   const [localClicks, setLocalClicks] = useState(clicks);
-  const [stats, setStats] = useState({});
   const [showWawaCry, setShowWawaCry] = useState(false);
 
   const [play] = useSound("/SoundEffect.mp3");
-
-  useEffect(() => {
-    if (scoreboard.length > 0) {
-      const topCountryData = scoreboard.reduce((prev, curr) =>
-        prev.totalClicks > curr.totalClicks ? prev : curr
-      );
-      const userCountryData = scoreboard.find(
-        (country) => country.isUsersCountry
-      );
-      if (topCountryData && userCountryData) {
-        setStats({
-          topCountry: topCountryData?.country || "",
-          topCountryName: topCountryData?.country || "",
-          topCountryClicks: topCountryData?.totalClicks || "",
-          userCountryClicks: userCountryData?.totalClicks || "",
-          userCountryName: userCountryData?.country || "",
-        });
-      }
-    }
-  }, [scoreboard]);
 
   const debouncedAddClick = useMemo(
     () =>
@@ -87,8 +64,6 @@ export default function Clicker() {
   useEffect(() => {
     setLocalClicks(clicks);
   }, [clicks]);
-
-  const toggleLeaderboard = () => setIsLeaderboardOpen((prev) => !prev);
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen w-full relative">
@@ -145,43 +120,7 @@ export default function Clicker() {
           className="absolute top-10 left-1/2 transform -translate-x-1/2 z-0 w-16 sm:w-20 md:w-24 lg:w-28"
         />
 
-        <div
-          className={`fixed w-full max-w-[90%] sm:max-w-[500px] bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-200 shadow-xl rounded-t-lg transition-all duration-300 ease-in-out ${
-            isLeaderboardOpen ? "h-1/2" : "h-16"
-          } flex flex-col items-center overflow-hidden z-50`}
-        >
-          <button
-            onClick={toggleLeaderboard}
-            className="w-full h-16 text-gray-800 text-lg font-semibold hover:bg-gray-300 transition-colors flex items-center justify-between px-4"
-          >
-            <div className="flex items-center space-x-2">
-              <Flag code={stats?.topCountry} className="w-6 h-6" />
-              <span className="font-bold">#1</span>
-              <span>{stats?.topCountryName}</span>
-              <span>({stats?.topCountryClicks})</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Flag code={stats?.userCountryName} className="w-6 h-6" />
-              <span>{stats?.userCountryName}</span>
-              <span>({stats?.userCountryClicks})</span>
-            </div>
-            <div
-              className={`transform transition-transform duration-300 ${
-                isLeaderboardOpen ? "rotate-180" : ""
-              }`}
-            >
-              ▲
-            </div>
-          </button>
-
-          <div
-            className={`w-full overflow-auto transition-all duration-300 ease-in-out ${
-              isLeaderboardOpen ? "flex-grow" : "h-0"
-            }`}
-          >
-            <Leaderboard />
-          </div>
-        </div>
+        <Leaderboard />
       </div>
     </div>
   );
