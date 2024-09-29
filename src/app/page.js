@@ -34,8 +34,8 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 overflow-hidden">
-      <div className="absolute scale-[0.6] md:scale-[1] top-2 left-1/2 transform -translate-x-1/2 z-50  p-4">
+    <div className="min-h-screen bg-pink-100 overflow-hidden relative">
+      <div className="absolute scale-[0.57] md:scale-[1] top-2 left-1/2 transform -translate-x-1/2 z-50  p-4">
         <Navbar currentTab={currentTab} setCurrentTab={handleTabChange} />
       </div>
       <AnimatePresence initial={false} custom={getDirection(currentTab)}>

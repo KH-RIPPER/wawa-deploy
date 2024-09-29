@@ -1,36 +1,87 @@
+import React from "react";
 import { motion } from "framer-motion";
 
 export default function About() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 10,
+      },
+    },
+  };
+
   return (
-    <div className="px-4 py-8 h-full flex flex-col justify-center items-center bg-violet-400">
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="text-4xl font-bold mb-6"
+    <motion.div
+      className="px-4 py-12 min-h-[100vh] flex flex-col justify-center items-center bg-[url('../assets/about-background.png')] bg-cover bg-center"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div
+        className="px-4 py-12 h-fit flex flex-col justify-center items-center bg-[rgba(0,0,0,0.1)] backdrop-blur-sm rounded-lg "
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
       >
-        About Wawa Cat
-      </motion.h1>
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="text-lg mb-4 max-w-2xl text-center"
-      >
-        Wawa Cat is a revolutionary meme token on the Solana blockchain,
-        combining the power of decentralized finance with the irresistible charm
-        of cats.
-      </motion.p>
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        className="text-lg max-w-2xl text-center"
-      >
-        Our mission is to bring joy, laughter, and financial opportunities to
-        the crypto community through our unique blend of humor and innovative
-        tokenomics.
-      </motion.p>
-    </div>
+        <motion.h1
+          variants={itemVariants}
+          className="text-3xl font-bold mb-8 text-white md:text-4xl lg:text-6xl "
+          style={{
+            textShadow: `
+            -1px -1px 0 #000,  
+             1px -1px 0 #000,
+            -1px  1px 0 #000,
+             1px  1px 0 #000,
+             4px 4px 0 rgba(0,0,0,0.2)
+          `,
+            WebkitTextStroke: "2px black",
+            textStroke: "2px black",
+          }}
+        >
+          WAWHAAAT ABOUT ?
+        </motion.h1>
+        {[
+          "Why did the sneaky Wawa cat jump into $wawa ?",
+          'Saw the market bounce and said, "WAAAAWAAAAAAAA"',
+          "Hissed at FUD, held tight to its $wawa bags.",
+          "Diversified into $wawa, $wawa, and $wawa.",
+          "Now it lounges forward, smug and unbothered !",
+        ].map((text, index) => (
+          <motion.p
+            key={index}
+            variants={itemVariants}
+            className="text-2xl mb-6 max-w-3xl text-center text-white"
+            style={{
+              textShadow: `
+              -1px -1px 0 #000,  
+               1px -1px 0 #000,
+              -1px  1px 0 #000,
+               1px  1px 0 #000,
+               4px 4px 0 rgba(0,0,0,0.2)
+            `,
+              WebkitTextStroke: "1px black",
+              textStroke: "1px black",
+            }}
+          >
+            {text}
+          </motion.p>
+        ))}
+      </motion.div>
+    </motion.div>
   );
 }

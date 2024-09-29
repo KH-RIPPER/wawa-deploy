@@ -47,7 +47,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
   };
 
   const buttonStyle = (tabName) => `
-    ${isMobile ? "w-auto" : "w-auto"} 
+    ${isMobile ? "w-[auto]" : "w-auto"} 
     py-2 px-4 
     rounded-full 
     transition-all duration-300 
@@ -81,7 +81,7 @@ export default function Navbar({ currentTab, setCurrentTab }) {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="flex flex-col absolute top-full left-0 min-w-[600px] bg-white md:static md:flex md:flex-row md:justify-between md:items-center gap-4 p-4 md:p-0 md:bg-transparent mt-2 md:mt-0 rounded-lg md:rounded-none shadow-lg md:shadow-none"
+            className="flex flex-col absolute top-full left-[15px] transform  min-w-[600px] bg-white md:static md:flex md:flex-row md:justify-between md:items-center gap-4 p-4 md:p-0 md:bg-transparent mt-2 md:mt-0 rounded-lg md:rounded-none shadow-lg md:shadow-none"
           >
             {/* Navigation Buttons */}
             <div className="flex flex-col md:flex-row gap-2">

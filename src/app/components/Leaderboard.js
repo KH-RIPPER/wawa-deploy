@@ -49,7 +49,6 @@ export default function Leaderboard() {
       calculateTotalClicks(result);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching leaderboard:", error);
       setLoading(false);
     }
   };
@@ -68,7 +67,6 @@ export default function Leaderboard() {
 
   useEffect(() => {
     const onUpdate = (newLeaderboard) => {
-      console.log("newLeaderboard", newLeaderboard);
       setLeaderboard(newLeaderboard);
       calculateTotalClicks(newLeaderboard);
     };
