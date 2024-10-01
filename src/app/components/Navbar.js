@@ -83,24 +83,6 @@ export default function Navbar({ currentTab, setCurrentTab }) {
             variants={menuVariants}
             className="flex flex-col absolute top-full left-[15px] transform  min-w-[600px] bg-white md:static md:flex md:flex-row md:justify-between md:items-center gap-4 p-4 md:p-0 md:bg-transparent mt-2 md:mt-0 rounded-lg md:rounded-none shadow-lg md:shadow-none"
           >
-            {/* Navigation Buttons */}
-            <div className="flex flex-col md:flex-row gap-2">
-              <motion.button
-                variants={itemVariants}
-                onClick={() => setCurrentTab("clicker")}
-                className={buttonStyle("clicker")}
-              >
-                Home
-              </motion.button>
-              <motion.button
-                variants={itemVariants}
-                onClick={() => setCurrentTab("about")}
-                className={buttonStyle("about")}
-              >
-                About
-              </motion.button>
-            </div>
-
             {/* Social Icons */}
             <div className="flex flex-row justify-center gap-2 my-2 md:my-0">
               <motion.a

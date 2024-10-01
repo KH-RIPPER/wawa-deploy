@@ -100,7 +100,7 @@ export default function Leaderboard() {
 
   return (
     <div
-      className={`fixed w-full max-w-[90%] sm:max-w-[500px] bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-200 shadow-xl rounded-t-lg transition-all duration-300 ease-in-out ${
+      className={`absolute w-full max-w-[90%] sm:max-w-[500px] bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-200 shadow-xl rounded-t-lg transition-all duration-300 ease-in-out ${
         isLeaderboardOpen ? "h-1/2" : "h-16"
       } flex flex-col items-center overflow-hidden z-50`}
     >
