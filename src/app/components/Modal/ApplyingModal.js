@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { submitTwitterHandle } from "@/services/mail";
 
 const ApplyModal = ({ isOpen, closeModal }) => {
   const [emailSent, setEmailSent] = useState(false);
@@ -36,49 +37,54 @@ const ApplyModal = ({ isOpen, closeModal }) => {
           <Formik
             initialValues={{ twitterHandle: "" }}
             validationSchema={Yup.object({
-              twitterHandle: Yup.string().required(
-                "Twitter handle is required"
-              ),
+              twitterHandle: Yup.string()
+                .required("Twitter handle is required")
+                .matches(/^@?(\w){1,15}$/, "Invalid Twitter handle format"),
             })}
-            onSubmit={async (values, { setSubmitting }) => {
-              await fetch("/api/send-twitter-handle", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(values),
-              });
-              setSubmitting(false);
-              setEmailSent(true);
+            onSubmit={async (values, { setSubmitting, setFieldError }) => {
+              try {
+                await submitTwitterHandle(values.twitterHandle);
+                setSubmitting(false);
+                setEmailSent(true);
+              } catch (error) {
+                setSubmitting(false);
+                setFieldError(
+                  "twitterHandle",
+                  "Failed to submit Twitter handle. Please try again."
+                );
+              }
             }}
           >
-            <Form className="space-y-4">
-              <div>
-                <label
-                  htmlFor="twitterHandle"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+            {({ isSubmitting }) => (
+              <Form className="space-y-4">
+                <div>
+                  <label
+                    htmlFor="twitterHandle"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Twitter Handle
+                  </label>
+                  <Field
+                    name="twitterHandle"
+                    type="text"
+                    placeholder="@username"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                  <ErrorMessage
+                    name="twitterHandle"
+                    component="div"
+                    className="mt-1 text-sm text-red-600"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
                 >
-                  Twitter Handle
-                </label>
-                <Field
-                  name="twitterHandle"
-                  type="text"
-                  placeholder="@username"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-                <ErrorMessage
-                  name="twitterHandle"
-                  component="div"
-                  className="mt-1 text-sm text-red-600"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                Send
-              </button>
-            </Form>
+                  {isSubmitting ? "Sending..." : "Send"}
+                </button>
+              </Form>
+            )}
           </Formik>
         ) : (
           <p className="text-lg text-green-600 font-semibold">

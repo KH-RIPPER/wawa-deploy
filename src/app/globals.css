@@ -8,6 +8,10 @@
   --font-cute-meow: "CuteMeow", sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-bodo-amat);
   margin: 0;
